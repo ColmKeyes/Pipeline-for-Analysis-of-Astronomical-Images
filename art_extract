@@ -1,0 +1,44 @@
+#!/bin/csh
+
+#-------------------------------------------------------------------------------#
+
+# This script is designed to loop through images in the parent directory and use bclean and SExtractor on them. You should move the SE_config directory to the directory which contains your images and then cd to the SE_config directory.
+
+#-------------------------------------------------------------------------------#
+
+# Load the FIGARO and CONVERT packages (from the Starlink suite). Prevent them from outputting their start up message to screen.
+alias echo "echo > /dev/null"
+figaro
+convert
+unalias echo
+
+# Set a counter variable.
+set i=1
+
+# Make directories to store the output.
+mkdir ../Clean_Images
+mkdir ../Phot_Catalogues
+mkdir ../Check_Images
+
+# For loop for image processing.
+foreach image (../*.fit)
+    # Set up naming convention.
+    set input_name=$image
+    set output_name=`echo $input_name | sed 's#_cal#_clean#'`
+    # Convert fits image to sdf format (for bclean).
+    fits2ndf in=$image out='Image' accept
+    # Remove cosmic rays and bad pixels from the image.
+    bclean IMAGE=Image CRSIG=15 CRFACT=1 CRMINV=120 SHARPNESS=TRUE CRSHARPNESS=16 DIRECTION=0 AUTOROW=TRUE BRFACT=1.5 BRPASS=5 FIX=TRUE DEGFIX=3 TEXTFILE=FALSE OUTPUT=clean
+    # Convert clean image back to fits format.
+    ndf2fits IN=clean OUT=$output_name
+    # Remove sdf versions.
+    rm Image.sdf
+    rm clean.sdf
+    # Use SExtractor on the cleaned image 
+    set sex_output_name=`echo $input_name:r | sed 's#_cal#_phot#'`
+    sex $output_name -c rfb_calibrate_1.txt -CATALOG_NAME $sex_output_name.cat -CHECKIMAGE_TYPE OBJECTS -CHECKIMAGE_NAME ../Check_Images/check_objs_$i.fits -VERBOSE_TYPE QUIET
+    @ i++
+end
+
+mv ../*_clean_*.fit ../Clean_Images
+mv ../*_phot_*.cat ../Phot_Catalogues
