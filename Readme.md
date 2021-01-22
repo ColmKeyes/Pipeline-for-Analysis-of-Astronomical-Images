@@ -1,6 +1,6 @@
 # Final_Year_Project
 
-Example of the type of image under analysis. 
+Example of the type of image to be processed and analysed. 
 Includes 2 reference stars and the star to be studied, J1938+5609.
 ![alt text](J1938+5609.PNG)
 
