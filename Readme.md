@@ -1,4 +1,6 @@
-# Final_Year_Project
+# Observatory Research 
+
+In my final year of university I completed a 10 week research project in an operational observatory. This project was ....
 
 Example of the type of image to be processed and analysed. 
 Includes 2 reference stars and the star to be studied, J1938+5609.
