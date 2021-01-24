@@ -1,6 +1,6 @@
 # Observatory Research 
 
-In my final year of university I completed a 10 week research project in an operational observatory. This project was ....
+final year university project consisting of 10 weeks of observatory research using the Armagh Robotic Telescope. This project included learning the proper operation of a robotic telescope, both remotely and in-person, creating a pipeline for the reduction and extraction of data from images taken and following this using Fourier Transform techniques for final analysis of the star.
 
 Example of the type of image to be processed and analysed. 
 Includes 2 reference stars and the star to be studied, J1938+5609.
